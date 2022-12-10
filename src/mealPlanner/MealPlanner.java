@@ -17,7 +17,6 @@ public class MealPlanner {
 		
 		mealPlanner.displayWelcome();
 		mealPlanner.displayMenu();
-		System.out.print("\nPlease choose one of the options above (1-10): ");
 		
 		Scanner scanner = new Scanner(System.in);
 		int userChoice;
@@ -72,6 +71,7 @@ public class MealPlanner {
 		System.out.println("4. Enter budget for month");
 		System.out.println("5. Get spending details for a specific date, week, or month");
 		System.out.println("6. Exit");
+		System.out.print("\nPlease choose one of the options above (1-6): ");
 		
 	}
 	
@@ -93,7 +93,7 @@ public class MealPlanner {
 	}
 	
 	private void askToRepeat(Scanner scanner, MealPlanner mealPlanner) {
-		System.out.println("\n\nDo you want to choose another option? (Y/N)");
+		System.out.print("\n\nDo you want to choose another option? (Y/N) ");
 		String repeatChoice = scanner.next();
 		if (repeatChoice.equalsIgnoreCase("Y")) {
 			mealPlanner.clearConsole();
@@ -105,17 +105,18 @@ public class MealPlanner {
 	}
 	
 	private void enterMealCost(Scanner scanner) {
+		System.out.println("You are now entering your meal cost.");
 		boolean repeatChoiceDifferentDay = false;
 		do {
 			System.out.print("Please enter a date in this format: mm/dd/yyyy. ");
 			Date userDate = formatDate(scanner);
 			boolean repeatChoiceSameDay = false;
 			do {
-				System.out.println("How much did you spend on this meal?");
+				System.out.print("How much did you spend on this meal? ");
 				double mealCost = scanner.nextDouble();
 				this.dailyPlanManager.createMealCost(userDate, mealCost, monthlyPlanManager, weeklyPlanManager);
 				
-				System.out.println("Do you want to add another meal to this day? (Y/N)");
+				System.out.print("Do you want to add another meal to this day? (Y/N) ");
 				String repeatChoice = scanner.next();
 				if (repeatChoice.equalsIgnoreCase("Y")) {
 					repeatChoiceSameDay = true;
@@ -126,7 +127,7 @@ public class MealPlanner {
 				
 			} while(repeatChoiceSameDay == true);
 			
-			System.out.println("Do you want to add a meal to another day? (Y/N)");
+			System.out.print("Do you want to add a meal to another day? (Y/N) ");
 			String repeatChoice = scanner.next();
 			if (repeatChoice.equalsIgnoreCase("Y")) {
 				repeatChoiceDifferentDay = true;
@@ -138,36 +139,41 @@ public class MealPlanner {
 	}
 	
 	private void enterDailyBudget(Scanner scanner) {
-		System.out.println("Please enter a date in this format: mm/dd/yyyy");
+		System.out.println("You are now entering a budget for a day.");
+		System.out.print("Please enter a date in this format: mm/dd/yyyy. ");
 		Date userDate = formatDate(scanner);
-		System.out.println("Please enter your budget for this date: ");
+		System.out.print("Please enter your budget for this date: ");
 		Double dailyBudget = scanner.nextDouble();
 		this.dailyPlanManager.createDailyBudget(userDate, dailyBudget);
 	}
 	
 	private void enterWeeklyBudget(Scanner scanner) {
-		System.out.println("Please enter a month (1-12) representing January through December.");
+		System.out.println("You are now entering a budget for a week.");
+		System.out.print("Please enter a month (1-12) representing January through December. ");
 		int month = formatMonth(scanner);
-		System.out.println("Which week are you setting a budget for? (1-4)");
+		System.out.print("Which week are you setting a budget for? (1-4): ");
 		int week = formatWeek(scanner);
-		System.out.println("Please enter your budget for this week: ");
+		System.out.print("Please enter your budget for this week: ");
 		Double weeklyBudget = scanner.nextDouble();
 		this.weeklyPlanManager.createWeeklyBudget(week, month, weeklyBudget);
 	}
 	
 	private void enterMonthlyBudget(Scanner scanner) {
-		System.out.println("Please enter a month (1-12) representing January through December.");
+		System.out.println("You are now entering a budget for a month.");
+		System.out.print("Please enter a month (1-12) representing January through December. ");
 		int month = formatMonth(scanner);
-		System.out.println("Please enter your budget for this month: ");
+		System.out.print("Please enter your budget for this month: ");
 		Double monthlyBudget = scanner.nextDouble();
 		this.monthlyPlanManager.createMonthlyBudget(month, monthlyBudget);
 	}
 	
 	private void getSpendingDetails(Scanner scanner) {
+		System.out.println("You are now searching for spending details.");
 		System.out.println("Do you want the details for a specific date, week, or month?");
 		System.out.println("1. Specific Date");
 		System.out.println("2. Specific Week");
 		System.out.println("3. Specific Month");
+		System.out.print("Please enter your choice: ");
 		
 		int userChoice = scanner.nextInt();
 		Date userDate = null;
@@ -176,24 +182,24 @@ public class MealPlanner {
 		
 		switch(userChoice) {
 		  case 1:
-			System.out.println("Please enter a date in this format: mm/dd/yyyy");
+			System.out.print("Please enter a date in this format: mm/dd/yyyy. ");
 			userDate = formatDate(scanner);
 			this.dailyPlanManager.displayDailyDetails(userDate);
 		    break;
 		  case 2:
-			System.out.println("Please enter a month (1-12) representing January through December.");
+			System.out.print("Please enter a month (1-12) representing January through December: ");
 			month = formatMonth(scanner);
-			System.out.println("Which week do you want spending details for? (1-4)");
+			System.out.print("Which week do you want spending details for? (1-4): ");
 			week = formatWeek(scanner);
 			this.weeklyPlanManager.displayWeeklyDetails(week, month);
 		    break;
 		  case 3:
-			System.out.println("Please enter a month (1-12) representing January through December.");
+			System.out.print("Please enter a month (1-12) representing January through December: ");
 			month = formatMonth(scanner);
 			this.monthlyPlanManager.displayMonthlyDetails(month);
 			break;
 		  default:
-			System.out.println("Please enter a date in this format: mm/dd/yyyy");
+			System.out.print("Please enter a date in this format: mm/dd/yyyy. ");
 			userDate = formatDate(scanner);
 		}
 		
@@ -210,7 +216,7 @@ public class MealPlanner {
 				userDate = formatter.parse(date);
 				isValidDate = true;
 			} catch (ParseException e) {
-				System.out.println("You have entered the date in the wrong format. Please enter again.");
+				System.out.print("You have entered the date in the wrong format. Please enter again: ");
 			}
 		} while (isValidDate == false);
 		
@@ -226,7 +232,7 @@ public class MealPlanner {
 				isValidMonth = true;
 			}
 			else {
-				System.out.println("Month is invalid. Please enter again.");
+				System.out.print("Month is invalid. Please enter again: ");
 			}
 			
 		} while (isValidMonth == false);
@@ -243,7 +249,7 @@ public class MealPlanner {
 				isValidWeek = true;
 			}
 			else {
-				System.out.println("There are only 4 weeks in a month! Please enter a a valid week. (1-4)");
+				System.out.print("There are only 4 weeks in a month! Please enter a a valid week. (1-4): ");
 			}
 		} while(isValidWeek == false);
 		
@@ -251,7 +257,7 @@ public class MealPlanner {
 	}
 	
 	public void clearConsole() {
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 	
 	
