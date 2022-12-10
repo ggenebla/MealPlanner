@@ -17,7 +17,7 @@ public class MealPlanner {
 		
 		mealPlanner.displayWelcome();
 		mealPlanner.displayMenu();
-		System.out.print("\nPlease choose one of the options above (1-6): ");
+		System.out.print("\nPlease choose one of the options above (1-10): ");
 		
 		Scanner scanner = new Scanner(System.in);
 		int userChoice;
@@ -107,7 +107,7 @@ public class MealPlanner {
 	private void enterMealCost(Scanner scanner) {
 		boolean repeatChoiceDifferentDay = false;
 		do {
-			System.out.println("Please enter a date in this format: mm/dd/yyyy");
+			System.out.print("Please enter a date in this format: mm/dd/yyyy. ");
 			Date userDate = formatDate(scanner);
 			boolean repeatChoiceSameDay = false;
 			do {
